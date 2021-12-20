@@ -73,6 +73,7 @@ public:
 					case 23:
 							return Point{-x, -z, -y};
 			}
+			return {0, 0, 0};
 	}
 
 	bool operator==(Point a) const

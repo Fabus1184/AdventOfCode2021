@@ -22,43 +22,48 @@ int main()
 
 		vector<Point> diff = {};
 
-		diff.reserve(map.size());
-
+		vector<Point> tempmap = {};
+		tempmap.reserve(map.size());
 		for (Point p: map) {
-				diff.emplace_back(p);
+				tempmap.push_back(p);
 		}
 
+		vector<Point> scanner_pos = {};
+
 		for (int ss = 0; ss < scanners.size(); ss++) {
-				cout << ss << "/" << scanners.size() << endl;
+				cout << "\r" << ss << "/" << scanners.size() - 1;
+				flush(cout);
+
+				diff = {};
+				for (Point p: tempmap) {
+						diff.emplace_back(p);
+				}
+				tempmap = {};
+
 				for (const Scanner &s: scanners) {
 						//DIRECTION
 						for (int r = 0; r < 24; r++) {
-								//REFERENCE POINT IN MAP
-								for (Point ref: map) {
+								//REFERENCE POINT IN diff
+								for (Point ref: diff) {
 										//REFERENCE POINT IN SIGNALS
 										for (Point zero: s.signals) {
 												Point v = ref - zero.rotate(r);
-												//cout << zero.rotate2d(r) << endl;
-												//cout << v << endl;
 
 												int match = 0;
 												for (Point p: s.signals) {
 														Point tmp = p.rotate(r) + v;
-														//cout << "VORHER: " << p << " NACHER: " << tmp << endl;
 														if (find(map.begin(), map.end(), tmp) != map.end()) {
 																match++;
 														}
 												}
 
-												//cout << match << endl << r << endl;
-												//cout << match << endl;
 												if (match >= 12) {
-														//cout << match << " " << r << endl;
+														scanner_pos.emplace_back(v);
 														for (Point p: s.signals) {
 																Point tmp = p.rotate(r) + v;
-																//cout << tmp << endl;
 																if (find(map.begin(), map.end(), tmp) == map.end()) {
 																		map.emplace_back(tmp);
+																		tempmap.emplace_back(tmp);
 																}
 														}
 												}
@@ -67,7 +72,19 @@ int main()
 						}
 				}
 		}
-		cout << map.size() << endl;
-		cout << "ENDE LOOL" << endl;
+		cout << endl << "Number of Scanners: " << map.size() << endl;
+
+		int distance = 0;
+		for (pair<Point, Point> pair: combinations(scanner_pos, scanner_pos)) {
+				int d = abs(pair.first.x - pair.second.x) + abs(pair.first.y - pair.second.y) +
+						abs(pair.first.z - pair.second.z);
+
+				if (d > distance) {
+						distance = d;
+				}
+
+		}
+		cout << "Max Manhattan distance: " << distance << endl;
+
 		return 0;
 }

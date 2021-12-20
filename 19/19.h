@@ -947,7 +947,5 @@ vector<vector<Point>> mydata = {
 				{551,  -474, -295},
 				{751,  512,  -740},
 		}
-
 };
-
 #endif
