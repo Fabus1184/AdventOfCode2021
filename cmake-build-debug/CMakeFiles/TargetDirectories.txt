@@ -1,3 +1,0 @@
-/home/fabian/Dokumente/Programmieren/aoc/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/fabian/Dokumente/Programmieren/aoc/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/fabian/Dokumente/Programmieren/aoc/cmake-build-debug/CMakeFiles/aoc.dir
